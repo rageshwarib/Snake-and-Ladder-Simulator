@@ -1,7 +1,8 @@
 #!/bin/bash -x
 #Program for Snake and Ladder Simulator
-#Variables
+#Constants
 POSITION=0
+#Variables
 position=0
 NO_PLAY=0
 LADDER=1
@@ -12,27 +13,31 @@ echo "Welcome to Snake Ladder Game"
 
 #Roll a die to get random number between 1 to 6
 dieOutcome=$((RANDOM%6+1))
-echo "Rolling die Outcome is::" $dieOutcome
+echo "Rolling die Outcome::" $dieOutcome
 
-#Check for options
-optionCheck=$((RANDOM%3))
-case $optionCheck in
-	$NO_PLAY)
-		echo "Current Position::" $position
-		echo "You stays in a same position::"$position ;;
-	$LADDER)
-		((ladderCount++))
-		echo "Current Position::" $position
-		position=$((position+dieOutcome))
-		echo "Your encountered a Ladder...New position::" $position ;;
-	$SNAKE)
-		((snakeCount++))
-		echo "current Position::" $position
-		position=$((position-dieOutcome)) 
-		if (( $position < 0 ))
-		then
-			echo "You encountered a snake...New position::" $POSITION
-		else
-			echo "You encountered a snake...New position::" $position
-		fi
-esac
+#Winning condition
+while(($position!=100))
+do
+	#Check for options
+	optionCheck=$((RANDOM%3))
+	case $optionCheck in
+		$NO_PLAY)
+			echo "Current Position::" $position
+			echo "You stays in a same position::"$position ;;
+		$LADDER)
+			((ladderCount++))
+			echo "Current Position::" $position
+			position=$((position+dieOutcome))
+			echo "You encountered a Ladder...New position::" $position ;;
+		$SNAKE)
+			((snakeCount++))
+			echo "current Position::" $position
+			position=$((position-dieOutcome)) 
+			if (( $position < 0 ))
+			then
+				echo "You encountered a snake...New position::" $POSITION
+			else
+				echo "You encountered a snake...New position::" $position
+			fi
+	esac
+done
