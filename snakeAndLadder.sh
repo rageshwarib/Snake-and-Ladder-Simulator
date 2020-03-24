@@ -1,6 +1,7 @@
 #!/bin/bash -x
 #Program for Snake and Ladder Simulator
 #Constants
+WINNING_POSITION=100
 POSITION=0
 #Variables
 position=0
@@ -11,33 +12,44 @@ ladderCount=0
 snakeCount=0
 echo "Welcome to Snake Ladder Game"
 
-#Roll a die to get random number between 1 to 6
-dieOutcome=$((RANDOM%6+1))
-echo "Rolling die Outcome::" $dieOutcome
-
 #Winning condition
-while(($position!=100))
+while(($position!=$WINNING_POSITION))
 do
+	#Roll a die to get random number between 1 to 6
+	dieOutcome=$((RANDOM%6+1))
+	echo "Rolling die Outcome::" $dieOutcome
 	#Check for options
 	optionCheck=$((RANDOM%3))
 	case $optionCheck in
 		$NO_PLAY)
 			echo "Current Position::" $position
-			echo "You stays in a same position::"$position ;;
+			echo "You stays in a same position::"$position 
+			position=$position ;;
 		$LADDER)
-			((ladderCount++))
 			echo "Current Position::" $position
-			position=$((position+dieOutcome))
-			echo "You encountered a Ladder...New position::" $position ;;
+			echo "You encountered a Ladder"
+			#Exact winning condition
+			if(( $((position+dieOutcome))>100 ))
+			then
+				position=$position
+				echo "Current position::"$position
+			else
+				position=$((position+dieOutcome))
+				position=$position
+				echo "New position::" $position
+			fi ;;
 		$SNAKE)
-			((snakeCount++))
 			echo "current Position::" $position
-			position=$((position-dieOutcome)) 
+			echo "You encountered a Snake"
+			#Exact restart condition 
 			if (( $position < 0 ))
 			then
-				echo "You encountered a snake...New position::" $POSITION
+				echo "New position::" $POSITION
+				position=$POSITION
 			else
-				echo "You encountered a snake...New position::" $position
-			fi
+				position=$((position-dieOutcome))
+				echo "New position::" $position
+				position=$position
+			fi ;;
 	esac
 done
