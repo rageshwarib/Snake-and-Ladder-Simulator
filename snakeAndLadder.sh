@@ -28,6 +28,7 @@ do
 		$LADDER)
 			echo "Current Position::" $position
 			echo "You encountered a Ladder"
+			((ladderCount++))
 			#Exact winning condition
 			if(( $((position+dieOutcome))>100 ))
 			then
@@ -41,6 +42,7 @@ do
 		$SNAKE)
 			echo "current Position::" $position
 			echo "You encountered a Snake"
+			((snakeCount++))
 			#Exact restart condition 
 			if (( $position < 0 ))
 			then
@@ -53,3 +55,7 @@ do
 			fi ;;
 	esac
 done
+echo "Ladder Count:: $ladderCount"
+echo "Snake Count:: $snakeCount"
+count=$((ladderCount+snakeCount))
+echo "$count number of times dice was played"
